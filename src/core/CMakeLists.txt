@@ -1,4 +1,6 @@
-add_library(Core SHARED Core.cpp)
+file(GLOB core_files *.cpp)
+add_library(Core SHARED ${core_files})
+
 install(
         TARGETS Core
 #        RUNTIME DESTINATION ${PROJECT_BINARY_DIR}/bin
