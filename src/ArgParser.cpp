@@ -3,10 +3,6 @@
 //
 
 #include "ArgParser.h"
-#include "Core.h"
-#define GEN_CHAINS_ALL 1
-#define GEN_CHAIN_WORD 2
-#define GEN_CHAIN_CHAR 3
 
 using std::vector;
 using std::string;
@@ -74,8 +70,6 @@ int ArgParser::next_arg() {
 bool check_duplicate(char data) {
     return data == 0;
 }
-
-void read_file() {}
 
 void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disallowed_head, bool &enable_loop,
                           char &function, string &input_file) {
