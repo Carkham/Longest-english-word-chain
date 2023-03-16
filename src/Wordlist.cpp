@@ -69,11 +69,15 @@ void output_word_chain_to_file(std::string output_file_name, char *result[], int
 
 void release(char **words, int word_num, char **results, int result_num) {
     for (int i = 0; i < word_num; ++i) {
-        delete[] words[i];
+        if (results[i] != nullptr) {
+            delete[] words[i];
+        }
     }
     delete[] words;
     for (int i = 0; i < result_num; ++i) {
-        delete[] results[i];
+        if (results[i] != nullptr) {
+            delete[] results[i];
+        }
     }
     delete[] results;
 }
@@ -105,8 +109,8 @@ int main(int argc, char *argv[]) {
     std::cout << "-r " << enable_loop << std::endl;
     std::cout << "function: " << function << std::endl;
     std::cout << "input_file_name: " << input_file_name << std::endl;
-    char **words = new char *[maxWordsNum];
-    char **results = new char *[maxResultsNum];
+    char **words = new char *[maxWordsNum]();
+    char **results = new char *[maxResultsNum]();
     word_num = get_word_from_file(input_file_name, words);
     try {
         switch (function) {
