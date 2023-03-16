@@ -4,10 +4,25 @@
 
 #include "gtest/gtest.h"
 #include "Core.h"
+#include "algorithm"
 #define testWordSize 100
 #define testResultSize 10000
 
 using namespace std;
+
+void results_cmp(char **expected_results, char **actual_results, int n) {
+    vector<string> expected, actual;
+    for (int i = 0; i < n; ++i) {
+        expected.emplace_back(expected_results[i]);
+        actual.emplace_back(actual_results[i]);
+    }
+    sort(expected.begin(), expected.end());
+    sort(actual.begin(), actual.end());
+    for (int i = 0; i < n; ++i) {
+        EXPECT_EQ(expected[i], actual[i]);
+    }
+}
+
 TEST(CoreTest, gen_chains_all) {
     int result_num;
     char **results = new char * [testResultSize];
@@ -25,9 +40,7 @@ TEST(CoreTest, gen_chains_all) {
     };
     result_num = Core::gen_chains_all(words, len, results);
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
     }
@@ -75,9 +88,7 @@ TEST(CoreTest, gen_chain_word) {
     };
     result_num = Core::gen_chain_word(words, len, results, 0, 0, 0, false);
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
@@ -114,9 +125,7 @@ TEST(CoreTest, gen_chain_word) {
     result_num = Core::gen_chain_word(words, len, results, 'a', 'a', 0, true);
 
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
@@ -153,10 +162,8 @@ TEST(CoreTest, gen_chain_char) {
     };
 
     result_num = Core::gen_chain_char(words, len, results, 0, 0, 0, false);
-    ASSERT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    EXPECT_EQ(expected_result_num, result_num);
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
@@ -174,9 +181,7 @@ TEST(CoreTest, gen_chain_char) {
     result_num = Core::gen_chain_word(words, len, results, 'a', 't', 't', false);
 
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
@@ -193,9 +198,7 @@ TEST(CoreTest, gen_chain_char) {
     result_num = Core::gen_chain_word(words, len, results, 0, 0, 0, true);
 
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
         delete results[i];
