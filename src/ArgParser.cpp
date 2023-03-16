@@ -17,15 +17,11 @@ options(vector<int>(128, -1)), argv_index(0), argc(argc) {
             options[*c] = 0; // 无需向后读入
             if (*(c + 1) == ':') { // 后一位为参数
                 options[*c] = 1;
-                if (*(c + 2) == ':') { // 后两位为参数
-                    options[*c] = 2;
-                    c++;
-                }
                 c++;
             }
         } else {
-            fprintf(stderr, "Wrong option pattern.\n\n");
-            exit(-1);
+            fprintf(stderr, "Wrong option pattern.\n");
+            // FIXME: throw exception
         }
     }
 }
@@ -44,21 +40,19 @@ int ArgParser::next_arg() {
         if (std::isalpha(c)) {
             if (options[c] == 0) {
                 param = ""; // 无参数
-                return c;
             }
             if (options[c] == 1) {
-                if (argv[argv_index][2] == 0) {
-                    argv_index++;
-                    if (argv_index == argc) {
-                        fprintf(stderr, "Miss option for -%c.\n\n", c);
-                        return -1;
-                    }
-                    param = string(argv[argv_index]);
-                } else {
-                    param = string(argv[argv_index] + 2);
+                argv_index++;
+                if (argv_index == argc) {
+                    fprintf(stderr, "Miss option for -%c.\n\n", c);
+                    return -1;
                 }
-                return c;
+                param = string(argv[argv_index]);
             }
+            if (options[c] == -1) {
+                fprintf(stderr, "Unknown argument -%c\n", c);
+            }
+            return c;
         }
     }
 
@@ -76,7 +70,7 @@ void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disal
     int arg;
     while ((arg = parser.next_arg()) != 0) {
         if (arg == -1) {
-            exit(-1);
+            break; // FIXME: throw exception
         } else if (arg == 1) { // 读文件名
             input_file = parser.param;
         } else {
@@ -127,7 +121,6 @@ void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disal
                     }
                     break;
                 default:
-                    fprintf(stderr, "Unknown argument %c\n", arg);
                     break;
             }
         }

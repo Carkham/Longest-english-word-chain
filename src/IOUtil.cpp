@@ -57,7 +57,7 @@ void IOUtil::output_word_chain_to_file(const char *output_file_name, char *resul
         fprintf(output_file, "%d\n", word_num);
     }
     for (int i = 0; i < word_num; ++i) {
-        fprintf(output_file, "%s\n", result[word_num]);
+        fprintf(output_file, "%s\n", result[i]); // FIXME
     }
     fclose(output_file);
 }
