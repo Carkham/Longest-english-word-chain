@@ -66,8 +66,7 @@ namespace core
         auto graph = BuildWordGraph(wordMap, calcWeight);
 
         if (!enableLoop && graph.HasCircle()) {
-            std::cerr << "===has circle===" << std::endl;
-            return {-Error::CIRCLE_ERROR, std::vector<std::string>()};
+            throw std::invalid_argument("===has circle===");
         }
 
         auto headLimit = [head, &wordMap, disallowed_head](int i) {
