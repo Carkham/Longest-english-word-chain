@@ -39,8 +39,7 @@ namespace core
         auto graph = BuildWordGraph(wordMap, [](const auto&) { return 1; });
 
         if (graph.HasCircle()) {
-            std::cerr << "===has circle===" << std::endl;
-            return {-Error::CIRCLE_ERROR, std::vector<std::string>()};
+            throw std::invalid_argument("===has circle===");
         }
 
         auto allChains = graph.FindAllChains();
