@@ -5,8 +5,9 @@
 #include "gtest/gtest.h"
 #include "Core.h"
 #include "algorithm"
+
 #define testWordSize 100
-#define testResultSize 10000
+#define testResultSize 1000
 
 using namespace std;
 
@@ -23,14 +24,14 @@ void results_cmp(const char **expected_results, char **actual_results, int n) {
     }
 }
 
-TEST(CoreTest, gen_chains_all) {
+TEST(CoreTest, gen_chains_all_example1) {
     int result_num;
-    char **results = new char * [testResultSize];
+    char **results = new char *[testResultSize];
     // sample 1
     int len = 4;
-    const char **words = new const char *[]{"woo", "oom", "moon", "noox"};
+    const char *words[] = {"woo", "oom", "moon", "noox"};
     int expected_result_num = 6;
-    const char **expected_results = new const char *[]{
+    const char *expected_results[] = {
             "woo oom",
             "moon noox",
             "oom moon",
@@ -38,36 +39,39 @@ TEST(CoreTest, gen_chains_all) {
             "oom moon noox",
             "woo oom moon noox",
     };
-    result_num = Core::gen_chains_all(const_cast<char**>(words), len, results);
+    result_num = Core::gen_chains_all(const_cast<char **>(words), len, results);
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] words;
-    delete[] expected_results;
-
-    // sample 2 no input
-    len = 0;
-    words = nullptr;
-    result_num = Core::gen_chains_all(const_cast<char**>(words), len, results);
-    EXPECT_EQ(result_num, len);
-
-    // sample 3 loop exception
-    len = 2;
-    words = new const char *[]{"ab", "ba"};
-    EXPECT_ANY_THROW(Core::gen_chains_all(const_cast<char**>(words), len, results));
-    delete[] words;
-
     delete[] results;
 }
 
-TEST(CoreTest, gen_chain_word) {
-    int result_num;
-    char **results = new char * [testResultSize];
+TEST(CoreTest, gen_chains_all_example2) {
+    // sample 2 no input
+    char **results = new char *[testResultSize];
+    int len = 0;
+    const char *words[] = {};
+    int result_num = Core::gen_chains_all(const_cast<char **>(words), len, results);
+    EXPECT_EQ(result_num, len);
+    delete[] results;
+}
+
+TEST(CoreTest, gen_chains_all_example3) {
+    // sample 3 loop exception
+    char **results = new char *[testResultSize];
+    int len = 2;
+    const char *words[] = {"ab", "ba"};
+    EXPECT_ANY_THROW(Core::gen_chains_all(const_cast<char **>(words), len, results));
+    delete[] results;
+}
+
+TEST(CoreTest, gen_chain_word_example1) {
     // sample 1
+    char **results = new char *[testResultSize];
     int len = 11;
-    const char **words = new const char * []{
+    const char *words[] = {
             "algebra",
             "apple",
             "zoo",
@@ -80,70 +84,78 @@ TEST(CoreTest, gen_chain_word) {
             "trick",
             "pseudopseudohypoparathyroidism"};
     int expected_result_num = 4;
-    const char **expected_results = new const char * []{
+    const char *expected_results[] = {
             "algebra",
             "apple",
             "elephant",
             "trick"
     };
-    result_num = Core::gen_chain_word(const_cast<char**>(words), len, results, 0, 0, 0, false);
+    int result_num = Core::gen_chain_word(const_cast<char **>(words), len, results, 0, 0, 0, false);
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
+    delete[] results;
+}
 
-
-    // sample 2 param test
-    expected_result_num = 3;
-    expected_results = new const char * []{
+TEST(CoreTest, gen_chain_word_example2) {
+    // sample 2 head tail
+    char **results = new char *[testResultSize];
+    int len = 11;
+    const char *words[] = {
+            "algebra",
+            "apple",
+            "zoo",
+            "elephant",
+            "under",
+            "fox",
+            "dog",
+            "moon",
+            "leaf",
+            "trick",
+            "pseudopseudohypoparathyroidism"};
+    int expected_result_num = 3;
+    const char *expected_results[] = {
             "algebra",
             "apple",
             "elephant"
     };
-    result_num = Core::gen_chain_word(const_cast<char**>(words), len, results, 'a', 't', 't', false);
-
+    int result_num = Core::gen_chain_word(const_cast<char **>(words), len, results, 'a', 't', 't', false);
     EXPECT_EQ(expected_result_num, result_num);
-    for (int i = 0; i < result_num; ++i) {
-        EXPECT_STREQ(expected_results[i], results[i]);
-    }
+    results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
-    delete[] words;
+    delete[] results;
+}
 
-
+TEST(CoreTest, gen_chain_word_example3) {
     // sample 3 enable loop
-    len = 2;
-    words = new const char * []{"ab", "ba"};
-    expected_result_num = 2;
-    expected_results = new const char * []{"ab", "ba"};
-    result_num = Core::gen_chain_word(const_cast<char**>(words), len, results, 'a', 'a', 0, true);
+    char **results = new char *[testResultSize];
+    int len = 2;
+    const char *words[] = {"ab", "ba"};
+    int expected_result_num = 2;
+    const char *expected_results[] = {"ab", "ba"};
+    int result_num = Core::gen_chain_word(const_cast<char **>(words), len, results, 'a', 'a', 0, true);
 
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
-
-
-    // sample 4
-
     delete[] results;
 }
 
-TEST(CoreTest, gen_chain_char) {
+TEST(CoreTest, gen_chain_char_example1) {
     int result_num;
-    char **results = new char * [testResultSize];
+    char **results = new char *[testResultSize];
     // sample 1
     int len = 11;
-    const char **words = new const char * []{
+    const char *words[] = {
             "algebra",
             "apple",
             "zoo",
@@ -156,55 +168,72 @@ TEST(CoreTest, gen_chain_char) {
             "trick",
             "pseudopseudohypoparathyroidism"};
     int expected_result_num = 2;
-    const char **expected_results = new const char * []{
+    const char *expected_results[] = {
             "pseudopseudohypoparathyroidism",
             "moon"
     };
 
-    result_num = Core::gen_chain_char(const_cast<char**>(words), len, results, 0, 0, 0, false);
+    result_num = Core::gen_chain_char(const_cast<char **>(words), len, results, 0, 0, 0, false);
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
+    delete[] results;
+}
 
-
+TEST(CoreTest, gen_chain_char_example2) {
     // sample 2
-    expected_result_num = 3;
-    expected_results = new const char * []{
+    int result_num;
+    char **results = new char *[testResultSize];
+    // sample 1
+    int len = 11;
+    const char *words[] = {
+            "algebra",
+            "apple",
+            "zoo",
+            "elephant",
+            "under",
+            "fox",
+            "dog",
+            "moon",
+            "leaf",
+            "trick",
+            "pseudopseudohypoparathyroidism"};
+    int expected_result_num = 3;
+    const char *expected_results[] = {
             "algebra",
             "apple",
             "elephant"
     };
-    result_num = Core::gen_chain_word(const_cast<char**>(words), len, results, 'a', 't', 't', false);
 
+    result_num = Core::gen_chain_char(const_cast<char **>(words), len, results, 'a', 't', 't', false);
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
-    delete[] words;
+    delete[] results;
+}
 
-
+TEST(CoreTest, gen_chain_char_example3) {
     // sample 3 enable loop
-    len = 2;
-    words = new const char * []{"ab", "ba", "ab", "bdefghizk"};
-    expected_result_num = 2;
-    expected_results = new const char * []{"ab", "ba"};
-    result_num = Core::gen_chain_word(const_cast<char**>(words), len, results, 0, 0, 0, true);
+    int result_num;
+    char **results = new char *[testResultSize];
+    // sample 1
+    int len = 4;
+    const char *words[] = {"ab", "ba", "ab", "bdefghizk"};
+    int expected_result_num = 3;
+    const char *expected_results[] = {"ab", "ba", "bdefghizk"};
 
+    result_num = Core::gen_chain_char(const_cast<char **>(words), len, results, 0, 0, 0, true);
     EXPECT_EQ(expected_result_num, result_num);
     results_cmp(expected_results, results, result_num);
 
     for (int i = 0; i < result_num; ++i) {
-        delete results[i];
+        delete[] results[i];
     }
-    delete[] expected_results;
-    delete[] words;
-
     delete[] results;
 }

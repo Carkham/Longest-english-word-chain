@@ -16,7 +16,7 @@ std::vector<std::string> CharConverter::ReadFromBytePtrArray(char** words, int l
 
 void CharConverter::WriteToBytePtrArray(const std::vector<std::string>& buffer, char** words) {
     for (int i = 0; i < buffer.size(); i++) {
-        words[i] = new char [buffer[i].size()];
+        words[i] = new char [buffer[i].size() + 1];
         strcpy(words[i], buffer[i].c_str());
     }
 }

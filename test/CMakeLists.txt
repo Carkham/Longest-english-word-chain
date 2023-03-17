@@ -22,7 +22,7 @@ target_link_libraries(hello_test
         )
 
 target_link_libraries(unit_tests
-#        PRIVATE ${LIBRARY_OUTPUT_PATH}/libCore.dll
+#        PRIVATE ${LIBRARY_OUTPUT_PATH}/sun_core.dll
 #        PRIVATE ${LIBRARY_OUTPUT_PATH}/ArgParser.dll
 #        PRIVATE ${LIBRARY_OUTPUT_PATH}/IOUtil.dll
         GTest::gtest_main
