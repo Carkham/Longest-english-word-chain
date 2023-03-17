@@ -29,6 +29,7 @@ TEST(IOUtil, output_test) {
     for (int i = 0; i < word_num; ++i) {
         EXPECT_STREQ(expected_words[i], words[i]);
     }
+    IOUtil::output_word_chain_to_file("", words, 0, false);
     for (int i = 0; i < word_num; ++i) {
         delete[] words[i];
     }

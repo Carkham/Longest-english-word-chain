@@ -104,9 +104,6 @@ namespace core
 
         auto ret = std::get<0>(temp);
         auto res = std::get<1>(temp);
-        if (ret < 0) {
-            return ret;
-        }
 
         CharConverter::WriteToBytePtrArray(res, result);
         return ret;
@@ -119,9 +116,7 @@ namespace core
         auto temp = GenChainWord(wordList, head, tail, disallowed_head, enable_loop);
         auto ret = std::get<0>(temp);
         auto chain = std::get<1>(temp);
-        if (ret < 0) {
-            return ret;
-        }
+
         CharConverter::WriteToBytePtrArray(chain, result);
         return ret;
     }
@@ -133,9 +128,7 @@ namespace core
         auto temp = GenChainChar(wordList, head, tail, disallowed_head,enable_loop);
         auto ret = std::get<0>(temp);
         auto chain = std::get<1>(temp);
-        if (ret < 0) {
-            return ret;
-        }
+
         CharConverter::WriteToBytePtrArray(chain, result);
         return ret;
     }

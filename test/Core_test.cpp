@@ -256,3 +256,27 @@ TEST(CoreTest, gen_chain_char_example3) {
     }
     delete[] results;
 }
+
+TEST(CoreTest, gen_chain_char_example4) {
+    // sample 4 loop exception
+    char **results = new char *[testResultSize];
+    // sample 1
+    int len = 4;
+    const char *words[] = {"ab", "ba", "ab", "bdefghizk"};
+
+    EXPECT_ANY_THROW(Core::gen_chain_char(const_cast<char **>(words), len, results, 0, 0, 0, false));
+    delete[] results;
+}
+
+
+TEST(CoreTest, gen_chain_char_example5) {
+    // sample 5 fully connected
+    char **results = new char *[testResultSize];
+    int len = 325;
+    const char *words[] = {
+            "aJuozLb","byttLVc","cPDdfHd","dNpjzse","exsDfuf","fJRHpFg","gFcwqAh","hkalThi","iTZflZj","jTzlPNk","khHCpol","lVukyJm","mXCuCwn","nZGnnmo","oGfffGp","pmlUYNq","qTStsxr","rxvGuPs","sWkdBHt","ttufpiu","uWzNNjv","vfOwraw","wrAaYEx","xoQzqPy","yatxhvz","bJGtrkc","cGqdsbd","dVGOXWe","eqVFRzf","fOVToig","ggxZluh","hcKzWHi","ifsXizj","jpcvjfk","keIlIRl","lClVuZm","mGWreon","nKFlRVo","oqJfjcp","pGTtMCq","qssMxar","rmljxls","sKVgxNt","tEFbJbu","usqAVzv","vxwIJTw","wwJVLSx","xUFbrdy","yuIJgez","cAMBwRd","dMNJGYe","eszRBIf","fQZjmsg","gPXpzbh","hbkyFbi","ioHuKRj","jaimfBk","kBMnGTl","lcHtkPm","mGqUSEn","nApMovo","oBoZEep","pTgwBrq","qUhQZYr","rXOcGus","sLkeWit","tCochFu","urqmuwv","vJHatww","wmdoDSx","xCwouUy","yVJIJQz","dYftEhe","eiMpLMf","fFeeqXg","gqqByVh","hTCwoKi","intXwdj","jbEhXhk","ksdhpel","lVkULmm","mwAXHTn","nfbgoXo","oGJOqRp","pyMqHIq","qelaoqr","rLzDeps","sJfDKRt","tchGSdu","uYpYrwv","vIpYMaw","wBDvMtx","xtZRDzy","yXYXqVz","eyhLzyf","fYuiRMg","gxQVrMh","hAuQoGi","iSroFLj","jEjCIqk","kiBiVil","lpgicPm","mRpoujn","nhZxlgo","oPIeoyp","pFEyYVq","qyemgdr","rheCqos","sbcukZt","tMHmZHu","uPXdAMv","vWalyIw","wbiqVdx","xmCwgFy","yCypBFz","fZGkMzg","gYasNNh","hoqNsxi","ivDYkrj","jfkWTvk","kiYuFbl","lwAvBBm","mycMzdn","nVpqzLo","oMSixHp","poLaAcq","quYisTr","rYsCnOs","sWSXyPt","tGzjKDu","uwxjMuv","vUSeIKw","wBiLxBx","xbCNMKy","yvCAFSz","gmHMMOh","hlrVtBi","iBjRywj","jkThPdk","kfcFdWl","lRScUim","mFxMxZn","nohcwio","oIGbTap","pWJXQLq","qKBLFJr","rtCITWs","svSNfGt","tBdCoVu","uSylcov","vemFoJw","wkQBptx","xiAfcQy","yrBWadz","hLWdiZi","iZsJscj","jlgwKNk","kNzxgCl","lAlqsJm","mYYorTn","nHvzRUo","okbGYXp","poLvGLq","qkOuxNr","rJwhSQs","shNXDIt","tKMghju","uCTFgQv","venoVFw","wFWgNEx","xtdcWay","yDmqWzz","iQhZPXj","jAQToYk","klmYnHl","lTRvhPm","meeImWn","nSXOkYo","oQwYbqp","pVlZrLq","qAbNthr","rMMVgWs","sCmkWFt","tABQmQu","uPCLFlv","vHehcqw","wuDIvIx","xBStBPy","yRjMNgz","jEwVTrk","kwlGvxl","lraFmRm","mCSNxyn","nyusFEo","osJOQcp","pmQnGUq","qtGGRVr","rwChrFs","sAwBpZt","tbkSEtu","uiLkIbv","vwCQGkw","wLyjtQx","xDgwUPy","yIoIMLz","kRgjePl","lOAUDWm","mDcQecn","nbhtlWo","oIrMaFp","pktAfpq","qDgcUEr","rVTjIbs","sEihoct","tXCkSau","uBDAHcv","vIGyPyw","wCZDpMx","xLXUIyy","yVNWmSz","lQewKnm","mCkhKIn","nMbiZHo","oymyrYp","pMrfupq","qXzpSfr","rRaFBHs","srMiLwt","tzWYmgu","ueirexv","vwQbqIw","wkToYgx","xGZOCdy","yafxwMz","mSGbWNn","nAPcheo","oBLzsrp","pNLgkGq","qEktitr","rEYvsvs","sRUrXpt","tzHBGOu","uUjSKRv","vWBrnEw","wASKbex","xRZxXUy","yGKfzGz","nIdkdjo","oZCRbLp","pUropwq","quCxeQr","rwBUUCs","smCYZot","tHQgzlu","ulZcWHv","vtefgXw","wCMWEJx","xkQBLEy","yQTihVz","oRMvadp","pIYuqaq","qntxyar","rcIuYus","srkIdtt","tUESawu","uXrjnCv","vgLvYEw","wTAcbcx","xQtpxxy","yZasttz","pWLwIVq","qySOgor","rmWpzqs","sgNxwxt","tcIyuku","uDkIJPv","vqwlfvw","wqdpIix","xcKERLy","yeLWpBz","qmBtHTr","rkVIurs","syLdLSt","tXzJcuu","uaPTLBv","vaMMTYw","wmkJUgx","xqbGzky","yzEdFfz","rlQaYts","shEHCVt","tWPAmru","unxsuSv","vyFSMow","wTjvLMx","xzXXAQy","yZULeAz","sezwJCt","tRGZwKu","uERcmEv","vrTxzaw","wJAbVtx","xMHiuKy","yzcfbxz","tJFXqBu","udIambv","vspFpbw","wAynyxx","xKtEday","yFawrpz","ujfOKlv","vhiYBiw","wqRKMCx","xgpZZLy","yGMfvbz","vwvnUSw","wrtEzZx","xyrzSYy","yfXAMXz","wigfeex","xYmEXpy","yUYcFVz","xVtRhBy","yrElhfz","ymquKcz"
+    };
+
+    int result_num = Core::gen_chain_char(const_cast<char **>(words), len, results, 0, 0, 0, false);
+    EXPECT_EQ(result_num, 25);
+}

@@ -15,6 +15,7 @@ int IOUtil::get_word_from_file(const char *input_file_name, char *words[]) {
     FILE *input_file = fopen(input_file_name, "r");
     if (input_file == nullptr) {
         fprintf(stderr, "No such file %s\n", input_file_name);
+        return 0;
     }
     bool is_word_start = true;
     int word_length = 0;
@@ -52,6 +53,7 @@ void IOUtil::output_word_chain_to_file(const char *output_file_name, char *resul
     FILE *output_file = fopen(output_file_name, "w");
     if (output_file == nullptr) {
         fprintf(stderr, "Cannot open file %s\n", output_file_name);
+        return;
     }
     if (output_num) {
         fprintf(output_file, "%d\n", word_num);
