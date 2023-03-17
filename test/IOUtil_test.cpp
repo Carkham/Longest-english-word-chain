@@ -6,17 +6,17 @@
 
 TEST(IOUtil, output_test) {
     std::string file_name("outfile_1.txt");
-    char **results = new char *[]{
+    const char **results = new const char *[]{
         "This_Is4TeSt_h?h"
     };
     int result_num = 1;
-    IOUtil::output_word_chain_to_file(file_name.c_str(), results, result_num, false);
-    IOUtil::output_word_chain_to_file(file_name.c_str(), results, result_num, true);
+    IOUtil::output_word_chain_to_file(file_name.c_str(), const_cast<char**>(results), result_num, false);
+    IOUtil::output_word_chain_to_file(file_name.c_str(), const_cast<char**>(results), result_num, true);
     delete[] results;
 
-    char **words = new char * [100];
+    char **words = new char *[100];
     int word_num;
-    char **expected_words = new char * []{
+    const char **expected_words = new const char *[]{
         "this",
         "is",
         "test",

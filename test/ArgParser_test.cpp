@@ -14,13 +14,14 @@ void reset(char &head, char &tail, char &d_head, bool &enable_loop,
 TEST(ArgParser, parse_arg) {
     int argc;
     bool enable_loop;
-    char **argv, head = 0, tail = 0, d_head = 0, function = 0;
+    char head = 0, tail = 0, d_head = 0, function = 0;
+    const char **argv;
     std::string input_file_name;
     ArgParser *parser;
     // sample 1
     argc = 3;
-    argv = new char *[]{"", "-n", "test.txt"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-n", "test.txt"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     EXPECT_EQ(0, head);
     EXPECT_EQ(0, tail);
@@ -34,8 +35,8 @@ TEST(ArgParser, parse_arg) {
 
     // sample 2
     argc = 10;
-    argv = new char *[]{"", "-w", "-h", "a", "-t", "b", "-j", "c", "-r", "test.txt"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-w", "-h", "a", "-t", "b", "-j", "c", "-r", "test.txt"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     EXPECT_EQ('a', head);
     EXPECT_EQ('b', tail);
@@ -48,16 +49,16 @@ TEST(ArgParser, parse_arg) {
 
     // sample 3 duplicate error
     argc = 9;
-    argv = new char *[]{"", "-c", "-h", "a", "-t", "b", "-j", "c", "-r"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-c", "-h", "a", "-t", "b", "-j", "c", "-r"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
 
     argc = 3;
-    argv = new char *[]{"", "-c", "-n"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-c", "-n"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
@@ -65,8 +66,8 @@ TEST(ArgParser, parse_arg) {
 
     // sample 4 illegal format error
     argc = 3;
-    argv = new char * []{"", "-h", "?"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-h", "?"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
@@ -74,8 +75,8 @@ TEST(ArgParser, parse_arg) {
     delete[] argv;
 
     argc = 3;
-    argv = new char * []{"", "-t", "?"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-t", "?"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
@@ -83,8 +84,8 @@ TEST(ArgParser, parse_arg) {
     delete[] argv;
 
     argc = 3;
-    argv = new char * []{"", "-j", "?"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-j", "?"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
@@ -93,8 +94,8 @@ TEST(ArgParser, parse_arg) {
 
     // sample 5 unknown arg
     argc = 2;
-    argv = new char * []{"", "-p"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-p"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
@@ -104,8 +105,8 @@ TEST(ArgParser, parse_arg) {
 
     // sample 6 -n with -h, -t, -j, -r
     argc = 10;
-    argv = new char * []{"", "-n", "-h", "a", "-t", "c", "-j", "a", "-r", "test.txt"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-n", "-h", "a", "-t", "c", "-j", "a", "-r", "test.txt"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
@@ -114,8 +115,8 @@ TEST(ArgParser, parse_arg) {
 
     // sample 7 missing option error
     argc = 2;
-    argv = new char * []{"", "-h"};
-    parser = new ArgParser(argc, argv, "nwch:t:j:r");
+    argv = new const char *[]{"", "-h"};
+    parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
