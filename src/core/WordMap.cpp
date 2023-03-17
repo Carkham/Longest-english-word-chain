@@ -4,21 +4,12 @@
 
 namespace core
 {
-    std::string toLower(std::string s) {
-        std::string result;
-        for (char i : s) {
-            result += tolower(i);
-        }
-        return result; // 返回result
-    }
-
-
 	WordMap WordMap::Build(std::vector<std::string> &wordList)
 	{
         WordMap wordMap; // 创建一个WordMap对象
         for (std::string word : wordList)
         {
-            wordMap.AddWord(toLower(word)); // 使用wordMap.来访问成员函数
+            wordMap.AddWord(word); // 使用wordMap.来访问成员函数
         }
 
         return wordMap;
@@ -45,8 +36,8 @@ namespace core
 
 	int WordMap::GetId(const std::string &word)
 	{
-        assert(_wordToId.find(toLower(word)) != _wordToId.end());
-		return _wordToId[toLower(word)];
+        assert(_wordToId.find(word) != _wordToId.end());
+		return _wordToId[word];
 	}
 
     std::vector<std::string> WordMap::GetAllWords() const {

@@ -182,9 +182,6 @@ namespace core
             int node = q.front();
             q.pop();
             visited.insert(node);
-            if (distance[node] == INT_MIN) {
-                continue;
-            }
             for (auto edge : _edges[node]) {
                 if (distance[edge.To] < distance[node] + _weights[edge.To]) {
                     distance[edge.To] = distance[node] + _weights[edge.To];
@@ -199,9 +196,6 @@ namespace core
             if (tail(dis.first) && dis.second != INT_MIN) {
                 filterResult.emplace_back(dis);
             }
-        }
-        if (filterResult.empty()) {
-            return make_pair(std::vector<int>(), INT_MIN);
         }
 
         int longestPathEnd = filterResult[0].first;
