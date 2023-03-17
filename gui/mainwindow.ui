@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+    <class>MainWindow</class>
+    <widget class="QMainWindow" name="MainWindow">
+        <property name="geometry">
+            <rect>
+                <x>0</x>
+                <y>0</y>
+                <width>800</width>
+                <height>600</height>
+            </rect>
+        </property>
+        <property name="windowTitle">
+            <string>MainWindow</string>
+        </property>
+        <widget class="QWidget" name="centralwidget">
+            <widget class="QWidget" name="gridLayoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>50</y>
+                        <width>731</width>
+                        <height>136</height>
+                    </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout">
+                    <item row="5" column="2">
+                        <widget class="QCheckBox" name="jButton">
+                            <property name="text">
+                                <string>-j 指定所有单词不允许出现的首字母</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="5" column="1">
+                        <widget class="QRadioButton" name="cButton">
+                            <property name="text">
+                                <string>-c 计算字母数量最多的单词链</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="5" column="3">
+                        <widget class="QLineEdit" name="jParamLineEdit"/>
+                    </item>
+                    <item row="4" column="1">
+                        <widget class="QRadioButton" name="wButton">
+                            <property name="text">
+                                <string>-w 计算最多单词数量的单词链</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="1" column="2">
+                        <widget class="QCheckBox" name="headButton">
+                            <property name="text">
+                                <string>-h 指定单词链开头字母</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="1" column="3">
+                        <widget class="QLineEdit" name="headParamLineEdit"/>
+                    </item>
+                    <item row="4" column="2">
+                        <widget class="QCheckBox" name="tailButton">
+                            <property name="text">
+                                <string>-t 指定单词链结尾字母</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="4" column="3">
+                        <widget class="QLineEdit" name="tailParamLineEdit"/>
+                    </item>
+                    <item row="6" column="2">
+                        <widget class="QCheckBox" name="rButton">
+                            <property name="text">
+                                <string>-r 允许单词文本隐含单词环</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="1" column="1">
+                        <widget class="QRadioButton" name="nButton">
+                            <property name="text">
+                                <string>-n 计算能够构成单词链的数目</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="0" column="1" alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="label_2">
+                            <property name="text">
+                                <string>主属性</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="0" column="2" alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="label_3">
+                            <property name="text">
+                                <string>附加属性</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="0" column="3" alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="label_4">
+                            <property name="text">
+                                <string>参数</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QWidget" name="formLayoutWidget">
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>190</y>
+                        <width>731</width>
+                        <height>151</height>
+                    </rect>
+                </property>
+                <layout class="QFormLayout" name="formLayout">
+                    <item row="0" column="0">
+                        <widget class="QLabel" name="label">
+                            <property name="text">
+                                <string>编辑文本</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="0" column="1">
+                        <widget class="QTextEdit" name="wordTextEdit"/>
+                    </item>
+                    <item row="1" column="0">
+                        <widget class="QLabel" name="label_5">
+                            <property name="text">
+                                <string>读取文件</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="1" column="1">
+                        <widget class="QToolButton" name="toolButton">
+                            <property name="text">
+                                <string>...</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+            <widget class="QWidget" name="gridLayoutWidget_2">
+                <property name="geometry">
+                    <rect>
+                        <x>30</x>
+                        <y>350</y>
+                        <width>731</width>
+                        <height>181</height>
+                    </rect>
+                </property>
+                <layout class="QGridLayout" name="gridLayout_2">
+                    <item row="0" column="0">
+                        <widget class="QPushButton" name="runButton">
+                            <property name="text">
+                                <string>运行</string>
+                            </property>
+                        </widget>
+                    </item>
+                    <item row="3" column="0" alignment="Qt::AlignHCenter">
+                        <widget class="QLabel" name="resultLabel">
+                        </widget>
+                    </item>
+                    <item row="1" column="0">
+                        <widget class="QTextBrowser" name="textBrowser"/>
+                    </item>
+                    <item row="2" column="0">
+                        <widget class="QPushButton" name="exportButton">
+                            <property name="text">
+                                <string>输出到文件</string>
+                            </property>
+                        </widget>
+                    </item>
+                </layout>
+            </widget>
+        </widget>
+        <widget class="QMenuBar" name="menubar">
+            <property name="geometry">
+                <rect>
+                    <x>0</x>
+                    <y>0</y>
+                    <width>800</width>
+                    <height>26</height>
+                </rect>
+            </property>
+        </widget>
+        <widget class="QStatusBar" name="statusbar"/>
+    </widget>
+    <resources/>
+    <connections/>
+</ui>
