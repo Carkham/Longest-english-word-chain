@@ -29,7 +29,7 @@ void release(char **words, int word_num, char **results, int result_num) {
 int main(int argc, char *argv[]) {
     ArgParser parser(argc, argv, "nwch:t:j:r");
     char head = 0, tail = 0, disallowed_head = 0, function = 0;
-    bool enable_loop;
+    bool enable_loop = false;
     int word_num, result_num;
     std::string input_file_name;
 
@@ -51,7 +51,14 @@ int main(int argc, char *argv[]) {
             default:
                 throw std::invalid_argument("Invalid function option");
         }
-        IOUtil::output_word_chain_to_file("solution.txt", results, result_num, function == 'n');
+        if (function == 'n') {
+            std::cout << result_num << std::endl;
+            for (int i = 0; i < result_num; ++i) {
+                std::cout << std::string(results[i]) << std::endl;
+            }
+        } else {
+            IOUtil::output_word_chain_to_file("solution.txt", results, result_num, function == 'n');
+        }
     } catch (std::exception &e) {
         fprintf(stderr, "%s\n", e.what());
     }

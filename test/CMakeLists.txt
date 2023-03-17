@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.0.2)
 
 enable_testing()
-add_executable(hello_test hello_test.cpp)
 file(GLOB core_files ${PROJECT_SOURCE_DIR}/src/core/*.cpp)
 file(GLOB lib_files
         ${PROJECT_SOURCE_DIR}/src/ArgParser.cpp
@@ -16,20 +15,11 @@ add_executable(
         ${lib_files}
 )
 
-target_link_libraries(hello_test
-        PRIVATE ${LIBRARY_OUTPUT_PATH}/libCore.dll
-        GTest::gtest_main
-        )
-
 target_link_libraries(unit_tests
-#        PRIVATE ${LIBRARY_OUTPUT_PATH}/sun_core.dll
-#        PRIVATE ${LIBRARY_OUTPUT_PATH}/ArgParser.dll
-#        PRIVATE ${LIBRARY_OUTPUT_PATH}/IOUtil.dll
         GTest::gtest_main
         )
 
 include(GoogleTest)
-gtest_discover_tests(hello_test)
 gtest_discover_tests(unit_tests
         PROPERTIES
         LABELS "unit"

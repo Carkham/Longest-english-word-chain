@@ -122,8 +122,8 @@ void MainWindow::on_runButton_clicked() {
 
 void MainWindow::read_status() {
     head = ui->headButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
-    tail = ui->tailButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
-    d_head = ui->jButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
+    tail = ui->tailButton->isChecked() ? ui->tailParamLineEdit->text().toLatin1().at(0) : 0;
+    d_head = ui->jButton->isChecked() ? ui->jParamLineEdit->text().toLatin1().at(0) : 0;
     enable_loop = ui->rButton->isChecked();
     if (myIsalpha(head)) {
         head = myTolower(head);
@@ -139,6 +139,9 @@ void MainWindow::read_status() {
         d_head = myTolower(d_head);
     } else if (d_head) {
         throw std::invalid_argument("invalid -j option\n");
+    }
+    if ((head && d_head) && (head == d_head)) {
+        throw std::invalid_argument("conflict option for -h and -j. plz set them different");
     }
 
     QString string = ui->wordTextEdit->toPlainText();

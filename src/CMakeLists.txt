@@ -9,6 +9,8 @@ install(
         TARGETS IOUtil
         RUNTIME DESTINATION ${EXECUTABLE_OUTPUT_PATH}
         LIBRARY DESTINATION ${EXECUTABLE_OUTPUT_PATH}
+        RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/guibin
+        LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/guibin
 )
 
 #add_executable(Wordlist Wordlist.cpp ArgParser.cpp IOUtil.cpp)
