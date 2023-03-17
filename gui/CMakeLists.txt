@@ -7,6 +7,7 @@ set(CMAKE_AUTORCC ON)
 set(CMAKE_AUTOUIC ON)
 
 set(CMAKE_PREFIX_PATH D:\\QT\\5.14.2\\mingw73_64)
+set(EXECUTABLE_OUTPUT_PATH ${PROJECT_SOURCE_DIR}/guibin)
 find_package(Qt5 COMPONENTS
         Core
         Gui
