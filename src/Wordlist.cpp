@@ -34,12 +34,6 @@ int main(int argc, char *argv[]) {
     std::string input_file_name;
 
     ArgParser::parse_arg(parser, head, tail, disallowed_head, enable_loop, function, input_file_name);
-    std::cout << "-h " << head << std::endl;
-    std::cout << "-t " << tail << std::endl;
-    std::cout << "-j " << disallowed_head << std::endl;
-    std::cout << "-r " << enable_loop << std::endl;
-    std::cout << "function: " << function << std::endl;
-    std::cout << "input_file_name: " << input_file_name << std::endl;
     char **words = new char *[maxWordsNum]();
     char **results = new char *[maxResultsNum]();
     word_num = IOUtil::get_word_from_file(input_file_name.c_str(), words);

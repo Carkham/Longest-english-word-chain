@@ -6,9 +6,10 @@
 
 #include "mainwindow.h"
 #include "ui_MainWindow.h"
-#include "time.h"
+#include <ctime>
 #include "IOUtil.h"
 #include "Core.h"
+#include "iostream"
 #define bufferSize 1024
 #define maxWordNum 10000
 #define maxResultNum 20000
@@ -23,6 +24,11 @@ MainWindow::MainWindow(QWidget *parent) :
     ui->headParamLineEdit->setMaxLength(1);
     ui->tailParamLineEdit->setMaxLength(1);
     ui->jParamLineEdit->setMaxLength(1);
+    buttonGroup = new QButtonGroup(this);
+    buttonGroup->addButton(ui->nButton, 0);
+    buttonGroup->addButton(ui->wButton, 1);
+    buttonGroup->addButton(ui->cButton, 2);
+    connect(buttonGroup, SIGNAL(buttonClicked(int)), this, SLOT(functionButton_clicked(int)));
 //    connect(ui->toolButton, SIGNAL(clicked(bool)), this, SLOT(on_toolButton_clicked()));
 //    connect(ui->runButton, SIGNAL(clicked(bool)), this, SLOT(on_runButton_clicked()));
 //    connect(ui->exportButton, SIGNAL(clicked(bool)), this, SLOT(on_exportButton_clicked()));
@@ -30,6 +36,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow() {
     delete ui;
+    delete buttonGroup;
     release_array(words, word_num);
     delete[] words;
     release_array(results, result_num);
@@ -48,8 +55,12 @@ void MainWindow::on_toolButton_clicked() {
     } else {
         try {
             word_num = IOUtil::get_word_from_file(file_name.toLatin1().data(), words);
-            QString string = to_QString();
-            ui->wordTextEdit->setText(string);
+            ui->wordTextEdit->clear();
+            for (int i = 0; i < word_num; ++i) {
+                QString string;
+                string.append(words[i]).append("\n");
+                ui->wordTextEdit->insertPlainText(string);
+            }
             release_array(words, word_num); // 读完后释放
         } catch (std::exception &e) {
             QMessageBox::warning(this, "Error!", "Failed to open file!");
@@ -65,49 +76,55 @@ void MainWindow::on_runButton_clicked() {
         return;
     }
     if (ui->nButton->isChecked()) {
+        printf("-n %c %c %c %d\n", head, tail, d_head, enable_loop);
         release_array(results, result_num); // 释放之前的
         s = clock();
         ui->resultLabel->setText("正在运行");
         result_num = Core::gen_chains_all(words, word_num, results);
         e = clock();
         QString string;
-        string.append("运行结束, 费时:").append(std::to_string(e - s).c_str());
+        string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());
         ui->resultLabel->setText(string);
         last_fn = 'n';
     } else if (ui->wButton->isChecked()) {
+        printf("-w %c %c %c %d\n", head, tail, d_head, enable_loop);
         release_array(results, result_num); // 释放之前的
         s = clock();
         ui->resultLabel->setText("正在运行");
         result_num = Core::gen_chain_word(words, word_num, results, head, tail, d_head, enable_loop);
-        QString string;
-        string.append("运行结束, 费时:").append(std::to_string(e - s).c_str());
-        ui->resultLabel->setText(string);
         e = clock();
+        QString string;
+        string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());
+        ui->resultLabel->setText(string);
         last_fn = 'w';
     } else if (ui->cButton->isChecked()) {
+        printf("-c %c %c %c %d\n", head, tail, d_head, enable_loop);
         release_array(results, result_num); // 释放之前的
         s = clock();
         ui->resultLabel->setText("正在运行");
         result_num = Core::gen_chain_char(words, word_num, results, head, tail, d_head, enable_loop);
-        QString string;
-        string.append("运行结束, 费时:").append(std::to_string(e - s).c_str());
-        ui->resultLabel->setText(string);
         e = clock();
+        QString string;
+        string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());
+        ui->resultLabel->setText(string);
         last_fn = 'c';
     }
-    QString result;
-    for (int i = 0; i < result_num; ++i) {
-        result.append(results[i]).append("\n");
-    }
+    std::cout << result_num << std::endl;
+    release_array(words, word_num); // 使用后释放
     ui->textBrowser->clear();
-    ui->textBrowser->insertPlainText(result);
+    for (int i = 0; i < result_num; ++i) {
+        QString result;
+        result.append(results[i]).append("\n");
+        ui->textBrowser->insertPlainText(result);
+        std::cout << results[i] << std::endl;
+    }
 }
 
 void MainWindow::read_status() {
     head = ui->headButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
-    tail = ui->headButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
-    d_head = ui->headButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
-    enable_loop = ui->headButton->isChecked();
+    tail = ui->tailButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
+    d_head = ui->jButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
+    enable_loop = ui->rButton->isChecked();
     if (myIsalpha(head)) {
         head = myTolower(head);
     } else if (head) {
@@ -139,7 +156,7 @@ void MainWindow::read_status() {
                 word.append(c.toLower());
             } else {
                 words[word_num] = new char[word.length() + 1];
-                strcpy(words[word_num], word.toLatin1().data());
+                strcpy(words[word_num++], word.toLatin1().data());
                 is_word_start = true;
                 word.clear();
             }
@@ -163,17 +180,28 @@ void MainWindow::on_exportButton_clicked() {
             } else {
                 IOUtil::output_word_chain_to_file(file_path_name.toLatin1().data(), results, result_num, false);
             }
+            ui->resultLabel->setText(QString("成功输出到:").append(file_path_name));
         } catch (std::exception &e) {
             QMessageBox::warning(this, "Error!", e.what());
         }
     }
 }
 
-QString MainWindow::to_QString() {
-    QString ret;
-    for (int i = 0; i < word_num; ++i) {
-        ret.append(words[i]).append("\n");
+void MainWindow::functionButton_clicked(int id) {
+    if (id == 0) {
+        ui->headButton->setCheckState(Qt::Unchecked);
+        ui->headButton->setCheckable(false);
+        ui->tailButton->setCheckState(Qt::Unchecked);
+        ui->tailButton->setCheckable(false);
+        ui->jButton->setCheckState(Qt::Unchecked);
+        ui->jButton->setCheckable(false);
+        ui->rButton->setCheckState(Qt::Unchecked);
+        ui->rButton->setCheckable(false);
+    } else {
+        ui->headButton->setCheckable(true);
+        ui->tailButton->setCheckable(true);
+        ui->jButton->setCheckable(true);
+        ui->rButton->setCheckable(true);
     }
-    return ret;
 }
 

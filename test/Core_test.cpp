@@ -150,6 +150,25 @@ TEST(CoreTest, gen_chain_word_example3) {
     delete[] results;
 }
 
+TEST(CoreTest, gen_chain_word_4) {
+    char **results = new char *[testResultSize];
+    const char *words[] = {
+            "aa",
+            "cd",
+            "bf",
+            "word",
+            "chain",
+            "na",
+            "acd",
+    };
+    const char *expected_results[] = {
+            "chain", "na", "aa", "acd"
+    };
+    int result_num = Core::gen_chain_word(const_cast<char **>(words), 7, results, 0, 0, 0, false);
+    EXPECT_EQ(result_num, 4);
+    results_cmp(expected_results, results, result_num);
+}
+
 TEST(CoreTest, gen_chain_char_example1) {
     int result_num;
     char **results = new char *[testResultSize];

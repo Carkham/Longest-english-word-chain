@@ -30,13 +30,11 @@ namespace core
 
 	std::string WordMap::GetWord(int id)
 	{
-		assert(id > 0 && id <= _wordCount);
 		return _idToWord[id];
 	}
 
 	int WordMap::GetId(const std::string &word)
 	{
-        assert(_wordToId.find(word) != _wordToId.end());
 		return _wordToId[word];
 	}
 
