@@ -81,7 +81,7 @@ void MainWindow::on_runButton_clicked() {
             release_array(results, result_num); // 释放之前的
             s = clock();
             ui->resultLabel->setText("正在运行");
-            result_num = Core::gen_chains_all(words, word_num, results);
+            result_num = gen_chains_all(words, word_num, results);
             e = clock();
             QString string;
             string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());
@@ -92,7 +92,7 @@ void MainWindow::on_runButton_clicked() {
             release_array(results, result_num); // 释放之前的
             s = clock();
             ui->resultLabel->setText("正在运行");
-            result_num = Core::gen_chain_word(words, word_num, results, head, tail, d_head, enable_loop);
+            result_num = gen_chain_word(words, word_num, results, head, tail, d_head, enable_loop);
             e = clock();
             QString string;
             string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());
@@ -103,7 +103,7 @@ void MainWindow::on_runButton_clicked() {
             release_array(results, result_num); // 释放之前的
             s = clock();
             ui->resultLabel->setText("正在运行");
-            result_num = Core::gen_chain_char(words, word_num, results, head, tail, d_head, enable_loop);
+            result_num = gen_chain_char(words, word_num, results, head, tail, d_head, enable_loop);
             e = clock();
             QString string;
             string.append("运行结束, 费时:").append(to_second_string(e - s).c_str());

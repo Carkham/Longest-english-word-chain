@@ -16,7 +16,7 @@ find_package(Qt5 COMPONENTS
 
 add_executable(gui main.cpp mainwindow.cpp)
 target_link_libraries(gui
-        PRIVATE ${LIBRARY_OUTPUT_PATH}/Core.dll
+        PRIVATE ${LIBRARY_OUTPUT_PATH}/core.dll
         PRIVATE ${LIBRARY_OUTPUT_PATH}/ArgParser.dll
         PRIVATE ${LIBRARY_OUTPUT_PATH}/IOUtil.dll
         Qt5::Core
