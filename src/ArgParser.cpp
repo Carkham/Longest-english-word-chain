@@ -4,6 +4,7 @@
 
 #include "ArgParser.h"
 #include "iostream"
+#include "exception"
 
 using std::vector;
 using std::string;

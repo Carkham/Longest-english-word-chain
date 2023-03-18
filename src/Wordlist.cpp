@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
     ArgParser parser(argc, argv, "nwch:t:j:r");
     char head = 0, tail = 0, disallowed_head = 0, function = 0;
     bool enable_loop = false;
-    int word_num, result_num;
+    int word_num = 0, result_num = 0;
     std::string input_file_name;
 
 
