@@ -5,10 +5,7 @@
 std::vector<std::string> CharConverter::ReadFromBytePtrArray(char** words, int len) {
     std::vector<std::string> buffer;
     for (int i = 0; i < len; i++) {
-        std::string word;
-        for (char* p = words[i]; *p != 0; p++) {
-            word += *p;
-        }
+        std::string word(words[i], strlen(words[i]));
         buffer.push_back(word);
     }
     return buffer;
