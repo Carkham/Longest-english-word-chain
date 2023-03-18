@@ -13,11 +13,11 @@ install(
         LIBRARY DESTINATION ${PROJECT_SOURCE_DIR}/guibin
 )
 
-#add_executable(Wordlist Wordlist.cpp ArgParser.cpp IOUtil.cpp)
-add_executable(Wordlist Wordlist.cpp)
+add_executable(Wordlist Wordlist.cpp ArgParser.cpp IOUtil.cpp)
+#add_executable(Wordlist Wordlist.cpp)
 
 target_link_libraries(Wordlist
         PRIVATE ${LIBRARY_OUTPUT_PATH}/Core.dll
-        PRIVATE ${LIBRARY_OUTPUT_PATH}/ArgParser.dll
-        PRIVATE ${LIBRARY_OUTPUT_PATH}/IOUtil.dll
+#        PRIVATE ${LIBRARY_OUTPUT_PATH}/ArgParser.dll
+#        PRIVATE ${LIBRARY_OUTPUT_PATH}/IOUtil.dll
         )
