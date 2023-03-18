@@ -33,10 +33,17 @@ int main(int argc, char *argv[]) {
     int word_num, result_num;
     std::string input_file_name;
 
-    ArgParser::parse_arg(parser, head, tail, disallowed_head, enable_loop, function, input_file_name);
+
     char **words = new char *[maxWordsNum]();
     char **results = new char *[maxResultsNum]();
-    word_num = IOUtil::get_word_from_file(input_file_name.c_str(), words);
+    try {
+        ArgParser::parse_arg(parser, head, tail, disallowed_head, enable_loop, function, input_file_name);
+        word_num = IOUtil::get_word_from_file(input_file_name.c_str(), words);
+    } catch (std::exception &e) {
+        fprintf(stderr, "%s", e.what());
+        release(words, word_num, results, result_num);
+        return -1;
+    }
     try {
         switch (function) {
             case 'n':
@@ -61,6 +68,8 @@ int main(int argc, char *argv[]) {
         }
     } catch (std::exception &e) {
         fprintf(stderr, "%s\n", e.what());
+        release(words, word_num, results, result_num);
+        return -1;
     }
     release(words, word_num, results, result_num);
     return 0;

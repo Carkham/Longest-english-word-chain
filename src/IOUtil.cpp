@@ -14,8 +14,9 @@
 int IOUtil::get_word_from_file(const char *input_file_name, char *words[]) {
     FILE *input_file = fopen(input_file_name, "r");
     if (input_file == nullptr) {
-        fprintf(stderr, "No such file %s\n", input_file_name);
-        return 0;
+        char msg[100] = {0};
+        sprintf(msg, "No such file %s\n", input_file_name);
+        throw std::invalid_argument(msg);
     }
     bool is_word_start = true;
     int word_length = 0;

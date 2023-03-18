@@ -39,6 +39,5 @@ TEST(IOUtil, output_test) {
 
 TEST(IOUtil, input_test) {
     // no such file
-    int ret = IOUtil::get_word_from_file("", nullptr);
-    EXPECT_EQ(0, ret);
+    EXPECT_ANY_THROW(IOUtil::get_word_from_file("", nullptr));
 }

@@ -3,6 +3,7 @@
 //
 
 #include "ArgParser.h"
+#include "iostream"
 
 using std::vector;
 using std::string;
@@ -20,7 +21,9 @@ options(vector<int>(128, -1)), argv_index(0), argc(argc) {
                 c++;
             }
         } else {
-            fprintf(stderr, "Wrong option pattern.\n");
+            char msg[100] = {0};
+            sprintf(msg, "Wrong option pattern.\n");
+            throw std::invalid_argument(msg);
             // FIXME: throw exception
         }
     }
@@ -44,13 +47,16 @@ int ArgParser::next_arg() {
             if (options[c] == 1) {
                 argv_index++;
                 if (argv_index == argc) {
-                    fprintf(stderr, "Miss option for -%c.\n\n", c);
-                    return -1;
+                    char msg[100] = {0};
+                    sprintf(msg, "Miss option for -%c.\n", c);
+                    throw std::invalid_argument(msg);
                 }
                 param = string(argv[argv_index]);
             }
             if (options[c] == -1) {
-                fprintf(stderr, "Unknown argument -%c\n", c);
+                char msg[100] = {0};
+                sprintf(msg, "Unknown argument -%c", c);
+                throw std::invalid_argument(msg);
             }
             return c;
         }
@@ -79,37 +85,51 @@ void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disal
                 case 'w':
                 case 'c':
                     if (!check_duplicate(function)) {
-                        fprintf(stderr, "Duplicate main function for %c %c\n", arg, function);
+                        char msg[100] = {0};
+                        sprintf(msg, "Duplicate main function for %c %c", arg, function);
+                        throw std::invalid_argument(msg);
                     }
                     function = (char) arg;
                     break;
                 case 'h':
                     if (!check_duplicate(head)) {
-                        fprintf(stderr, "Duplicate value of -%c for new: %s old: %c\n", arg, parser.param.c_str(), head);
+                        char msg[100] = {0};
+                        sprintf(msg, "Duplicate value of -%c ,new: %s old %c", arg, parser.param.c_str(), head);
+                        throw std::invalid_argument(msg);
                     }
                     head = parser.param[0];
                     if (!std::isalpha(head)) {
-                        fprintf(stderr, "Error value of -%c must be alpha\n", arg);
+                        char msg[100] = {0};
+                        sprintf(msg, "Error value of -%c, should be alpha got %c", arg, head);
+                        throw std::invalid_argument(msg);
                     }
                     head = std::tolower(head);
                     break;
                 case 't':
                     if (!check_duplicate(tail)) {
-                        fprintf(stderr, "Duplicate value of -%c for new: %s old: %c\n", arg, parser.param.c_str(), tail);
+                        char msg[100] = {0};
+                        sprintf(msg, "Duplicate value of -%c ,new: %s old %c", arg, parser.param.c_str(), tail);
+                        throw std::invalid_argument(msg);
                     }
                     tail = parser.param[0];
                     if (!std::isalpha(tail)) {
-                        fprintf(stderr, "Error value of -%c must be alpha\n", arg);
+                        char msg[100] = {0};
+                        sprintf(msg, "Error value of -%c, should be alpha got %c", arg, tail);
+                        throw std::invalid_argument(msg);
                     }
                     tail = std::tolower(tail);
                     break;
                 case 'j':
                     if (!check_duplicate(disallowed_head)) {
-                        fprintf(stderr, "Duplicate value of -%c for new: %s old: %c\n", arg, parser.param.c_str(), disallowed_head);
+                        char msg[100] = {0};
+                        sprintf(msg, "Duplicate value of -%c ,new: %s old %c", arg, parser.param.c_str(), disallowed_head);
+                        throw std::invalid_argument(msg);
                     }
                     disallowed_head = parser.param[0];
                     if (!std::isalpha(disallowed_head)) {
-                        fprintf(stderr, "Error value of -%c must be alpha\n", arg);
+                        char msg[100] = {0};
+                        sprintf(msg, "Error value of -%c, should be alpha got %c", arg, disallowed_head);
+                        throw std::invalid_argument(msg);
                     }
                     disallowed_head = std::tolower(disallowed_head);
                     break;
@@ -117,7 +137,9 @@ void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disal
                     if (!enable_loop) {
                         enable_loop = true;
                     } else {
-                        fprintf(stderr, "Duplicate value of -%c\n", arg);
+                        char msg[100] = {0};
+                        sprintf(msg, "Duplicate value of -%c ,new: %s old %d", arg, parser.param.c_str(), enable_loop);
+                        throw std::invalid_argument(msg);
                     }
                     break;
                 default:
@@ -130,17 +152,24 @@ void ArgParser::parse_arg(ArgParser &parser, char &head, char &tail, char &disal
     switch (function) {
         case 'n':
             if (head != 0 || tail != 0 || disallowed_head != 0 || enable_loop) {
-                fprintf(stderr, "argument -%c is not compatible with other argument\n", function);
+                char msg[100] = {0};
+                sprintf(msg, "argument -%c is not compatible with other argument\n while -h=%c -t=%c -j=%c -r=%d",
+                        function, head, tail, disallowed_head, enable_loop);
             }
+            break;
         case 'w':
         case 'c':
             break;
         default:
-            fprintf(stderr, "You must specify a function\n");
+            char msg[100] = {0};
+            sprintf(msg, "You must specify a function");
+            throw std::invalid_argument(msg);
     }
 
     // check input_file
     if (input_file.empty()) {
-        fprintf(stderr, "You must specify a file\n");
+        char msg[100] = {0};
+        sprintf(msg, "You must specify a file");
+        throw std::invalid_argument(msg);
     }
 }

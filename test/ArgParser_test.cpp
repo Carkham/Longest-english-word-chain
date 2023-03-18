@@ -51,7 +51,7 @@ TEST(ArgParser, parse_arg) {
     argc = 9;
     argv = new const char *[]{"", "-c", "-h", "a", "-t", "b", "-j", "c", "-r"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -59,7 +59,7 @@ TEST(ArgParser, parse_arg) {
     argc = 3;
     argv = new const char *[]{"", "-c", "-n"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -69,7 +69,7 @@ TEST(ArgParser, parse_arg) {
     argv = new const char *[]{"", "-h", "?"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -78,7 +78,7 @@ TEST(ArgParser, parse_arg) {
     argv = new const char *[]{"", "-t", "?"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -87,7 +87,7 @@ TEST(ArgParser, parse_arg) {
     argv = new const char *[]{"", "-j", "?"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -97,7 +97,7 @@ TEST(ArgParser, parse_arg) {
     argv = new const char *[]{"", "-p"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
@@ -107,7 +107,6 @@ TEST(ArgParser, parse_arg) {
     argc = 10;
     argv = new const char *[]{"", "-n", "-h", "a", "-t", "c", "-j", "a", "-r", "test.txt"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
-    // FIXME: EXPECT_THROW
     ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
@@ -118,12 +117,11 @@ TEST(ArgParser, parse_arg) {
     argv = new const char *[]{"", "-h"};
     parser = new ArgParser(argc, const_cast<char**>(argv), "nwch:t:j:r");
     // FIXME: EXPECT_THROW
-    ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name);
+    EXPECT_ANY_THROW(ArgParser::parse_arg(*parser, head, tail, d_head, enable_loop, function, input_file_name));
     reset(head, tail, d_head, enable_loop, function, input_file_name);
     delete parser;
     delete[] argv;
 
     // sample 8 wrong option pattern
-    parser = new ArgParser(0, nullptr, "_1_3");
-    delete parser;
+    EXPECT_ANY_THROW(new ArgParser(0, nullptr, "_1_3"));
 }
