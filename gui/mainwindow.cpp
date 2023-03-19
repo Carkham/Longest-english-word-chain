@@ -215,10 +215,10 @@ void MainWindow::functionButton_clicked(int id) {
         ui->rButton->setCheckState(Qt::Unchecked);
         ui->rButton->setEnabled(false);
     } else {
-        ui->headButton->setCheckable(true);
-        ui->tailButton->setCheckable(true);
-        ui->jButton->setCheckable(true);
-        ui->rButton->setCheckable(true);
+        ui->headButton->setEnabled(true);
+        ui->tailButton->setEnabled(true);
+        ui->jButton->setEnabled(true);
+        ui->rButton->setEnabled(true);
     }
 }
 
