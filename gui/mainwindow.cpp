@@ -126,6 +126,15 @@ void MainWindow::on_runButton_clicked() {
 }
 
 void MainWindow::read_status() {
+    if (ui->headButton->isChecked() && ui->headParamLineEdit->text().isEmpty()) {
+        throw std::invalid_argument("missing -h option\n");
+    }
+    if (ui->tailButton->isChecked() && ui->tailParamLineEdit->text().isEmpty()) {
+        throw std::invalid_argument("missing -t option\n");
+    }
+    if (ui->jButton->isChecked() && ui->jParamLineEdit->text().isEmpty()) {
+        throw std::invalid_argument("missing -j option\n");
+    }
     head = ui->headButton->isChecked() ? ui->headParamLineEdit->text().toLatin1().at(0) : 0;
     tail = ui->tailButton->isChecked() ? ui->tailParamLineEdit->text().toLatin1().at(0) : 0;
     d_head = ui->jButton->isChecked() ? ui->jParamLineEdit->text().toLatin1().at(0) : 0;
