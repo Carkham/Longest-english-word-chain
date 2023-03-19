@@ -207,13 +207,13 @@ void MainWindow::on_exportButton_clicked() {
 void MainWindow::functionButton_clicked(int id) {
     if (id == 0) {
         ui->headButton->setCheckState(Qt::Unchecked);
-        ui->headButton->setCheckable(false);
+        ui->headButton->setEnabled(false);
         ui->tailButton->setCheckState(Qt::Unchecked);
-        ui->tailButton->setCheckable(false);
+        ui->tailButton->setEnabled(false);
         ui->jButton->setCheckState(Qt::Unchecked);
-        ui->jButton->setCheckable(false);
+        ui->jButton->setEnabled(false);
         ui->rButton->setCheckState(Qt::Unchecked);
-        ui->rButton->setCheckable(false);
+        ui->rButton->setEnabled(false);
     } else {
         ui->headButton->setCheckable(true);
         ui->tailButton->setCheckable(true);
